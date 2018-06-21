@@ -13,4 +13,16 @@
 
 Route::get('/', function () {
     return view('welcome');
+    
+// 「/」というURLにアクセスしたとき、welcomecontroller@indexへ飛べ
+Route::get('/', 'WelcomeController@index');
+
+
+
+
+
+
+
+
+
 });
