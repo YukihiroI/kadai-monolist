@@ -49,5 +49,19 @@ use Illuminate\Http\Request;
           'item' => $item,
           'want_users' => $want_users,
       ]);
+      
+      
+      //have機能の課題分
+      $item = Item::find($id);
+      $have_users = $item->have_users;
+
+      return view('items.show', [
+          'item' => $item,
+          'have_users' => $have_users,
+      ]);
     }
+    
+    
+    
+    
   }

@@ -84,4 +84,54 @@ class User extends Authenticatable
     
     
     
+    //haveの機能拡張分
+    
+
+    public function have_items()
+    {
+        return $this->items()->where('type', 'have');
+    }
+
+    public function have($itemId)
+    {
+        // Is the user already "have"?
+        $exist = $this->is_having($itemId);
+
+        if ($exist) {
+            // do nothing
+            return false;
+        } else {
+            // do "have"
+            $this->items()->attach($itemId, ['type' => 'have']);
+            return true;
+        }
+    }
+
+    public function dont_have($itemId)
+    {
+        // Is the user already "have"?
+        $exist = $this->is_having($itemId);
+
+        if ($exist) {
+            // remove "have"
+            \DB::delete("DELETE FROM item_user WHERE user_id = ? AND item_id = ? AND type = 'have'", [\Auth::id(), $itemId]);
+        } else {
+            // do nothing
+            return false;
+        }
+    }
+
+    public function is_having($itemIdOrCode)
+    {
+        if (is_numeric($itemIdOrCode)) {
+            $item_id_exists = $this->have_items()->where('item_id', $itemIdOrCode)->exists();
+            return $item_id_exists;
+        } else {
+            $item_code_exists = $this->have_items()->where('code', $itemIdOrCode)->exists();
+            return $item_code_exists;
+        }
+    }
+    
+    
+    
 }
