@@ -21,6 +21,6 @@ class Item extends Model
     //have機能の課題
     public function have_users()
     {
-        return $this->users()->where('type', 'haveS');
+        return $this->users()->where('type', 'have');
     }
 }
